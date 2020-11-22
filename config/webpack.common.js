@@ -68,8 +68,6 @@ module.exports = {
         ],
       },
 
-      // {test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource'},
-
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
         use: [
