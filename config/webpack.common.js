@@ -1,14 +1,15 @@
-const paths = require('./paths')
+const path = require('path')
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
-  entry: [paths.src + '/index.js'],
+  entry: './src/index.js',
 
   output: {
-    path: paths.build,
+    path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.js',
     publicPath: '',
   },
@@ -19,7 +20,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: paths.public,
+          from: './public',
           to: 'assets',
         }
       ],
@@ -27,9 +28,29 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       title: 'Webpack 5 Base',
-      favicon: paths.src + '/images/favicon.png',
-      template: paths.src + '/template.html',
+      favicon: './src/images/favicon.png',
+      template: './src/template.html',
       filename: 'index.html',
+    }),
+
+    new ImageMinimizerPlugin({
+      minimizerOptions: {
+        plugins: [
+          ['gifsicle', { interlaced: true }],
+          ['jpegtran', { progressive: true }],
+          ['optipng', { optimizationLevel: 5 }],
+          [
+            'svgo',
+            {
+              plugins: [
+                {
+                  removeViewBox: false,
+                },
+              ],
+            },
+          ],
+        ],
+      },
     }),
   ],
 
@@ -47,9 +68,22 @@ module.exports = {
         ],
       },
 
-      {test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource'},
+      // {test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource'},
 
-      {test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline'},
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets',
+              name:'[name][hash].[ext]', 
+            }
+          }
+        ]
+      },
+
+      {test: /\.(woff(2)?|eot|ttf|otf|)$/, type: 'asset/inline'},
     ],
   },
 }

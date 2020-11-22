@@ -10,11 +10,15 @@ console.log(example())
 import './styles/index.scss'
 
 /**
- * * Image
+ * * Images
  */
 import webpackLogo from './images/webpack-logo.svg'
 const logo = document.createElement('img')
 logo.src = webpackLogo
+
+import cube from './images/cube.jpg'
+const img = document.createElement('img')
+img.src = cube
 
 /**
  * * Class properties
@@ -29,16 +33,16 @@ const heading = document.createElement('h1')
 heading.textContent = test.heading
 
 /**
- * * Public dir
+ * * Public folder
  */
-import pic from '../public/cube.jpg'
-const img = document.createElement('img')
-img.src = pic
+import cube2 from './../public/cube2.jpg'
+const img2 = document.createElement('img')
+img2.src = cube2
 
 /**
  * * Append to the DOM
  */
 const app = document.querySelector('#root')
-app.append(logo, heading, img)
+app.append(logo, heading, img, img2)
 
 

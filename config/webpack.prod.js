@@ -1,4 +1,4 @@
-const paths = require('./paths')
+const path = require('path')
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
 
@@ -11,9 +11,9 @@ module.exports = merge(common, {
   devtool: false,
 
   output: {
-    path: paths.build,
-    publicPath: '',
+    path: path.resolve(__dirname, './../dist'),
     filename: 'js/[name].[contenthash].bundle.js',
+    publicPath: '',
   },
 
   plugins: [
